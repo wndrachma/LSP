@@ -20,7 +20,22 @@ class Product extends Model
         'image4_url',
         'image5_url'
     ];
+
     public function fproducts(){
         return $this->belongsTo(Product::class, 'product_category_id', 'id');
+    }
+    
+    public function discounts()
+    {
+        return $this->hasMany(Discount::class);
+    }
+
+    public function getDiscountedPrice()
+    {
+        if ($this->discounts->isNotEmpty()) {
+            $discount = $this->discounts->first();
+            return $this->price - ($this->price * $discount->percentage / 100);
+        }
+        return $this->price;
     }
 }

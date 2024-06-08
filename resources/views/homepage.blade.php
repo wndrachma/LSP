@@ -28,6 +28,7 @@
               	<a class="dropdown-item" href="{{ route('wish.index') }}">Wishlist</a>
               </div>
             </li>
+            <li class="nav-item"><a href="{{ route('review') }}" class="nav-link">Review</a></li>
 	          <li class="nav-item"><a href="{{ route('about.index') }}" class="nav-link">About</a></li>
 	          <li class="nav-item mx-0 mx-lg-1 py-3 px-0 px-lg-3 rounded text-white">
                         @if (Auth::guard('customers')->check())
@@ -48,7 +49,7 @@
                             href="{{route('login')}}">Login</a></li>
                     @endif
                     </li>
-	          <li class="nav-item cta cta-colored"><a href="{{ route('cart.index') }}" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item cta cta-colored"><a href="{{ route('landingpage.cart') }}" class="nav-link"><span class="icon-shopping_cart"></span></a></li>
 
 	        </ul>
 	      </div>
@@ -153,28 +154,33 @@
         </div>   		
     	</div>
     	<div class="container">
-    		<div class="row">
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="lp/images/product-1.jpg" alt="Colorlib Template">
+			<div class="row">
+				@foreach ($products as $product)
+				<div class="col-md-6 col-lg-3 ftco-animate">
+					<div class="product">
+						<a href="{{ route('produk.detail', $product->id) }}" class="img-prod"><img class="img-fluid" src="{{ asset('storage/' . $product->image1_url) }}" alt="Colorlib Template" style="width: 250px; height: 230px;">
     						<!-- <span class="status">30%</span>
     						<div class="overlay"></div> -->
     					</a>
     					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="#">Paprika</a></h3>
+							<h3><a href="{{ route('produk.detail', $product->id) }}">{{ $product->product_name }}</a></h3>
     						<div class="d-flex">
     							<div class="pricing">
-								<p class="price"><span>Rp.60.000.00 /kg</span></p>
+								<p class="price"><span>Rp {{ $product->price}} /kg</span></p>
 		    					</div>
 	    					</div>
 	    					<div class="bottom-area d-flex px-3">
 	    						<div class="m-auto d-flex">
-	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+	    							<a href="{{ route('produk.detail', $product->id) }}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
 	    								<span><i class="ion-ios-menu"></i></span>
 	    							</a>
-	    							<a href="{{ route('cart.index') }}" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
+	    							<a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1" onclick="event.preventDefault(); document.getElementById('add-to-cart-form-{{ $product->id }}').submit();">
+									<span><i class="ion-ios-cart"></i></span>
+									</a>
+									<form id="add-to-cart-form-{{ $product->id }}" action="{{ route('cart.store', $product->id) }}" method="POST" style="display: none;">
+										@csrf
+										<input type="hidden" name="quantity" value="1">
+									</form>
 	    							<a href="{{ route('wish.index') }}" class="heart d-flex justify-content-center align-items-center ">
 	    								<span><i class="ion-ios-heart"></i></span>
 	    							</a>
@@ -183,205 +189,7 @@
     					</div>
     				</div>
     			</div>
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="lp/images/product-2.jpg" alt="Colorlib Template">
-    						<div class="overlay"></div>
-    					</a>
-    					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="#">Strawberry</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-								<p class="price"><span>Rp.30.000.00 /kg</span></p>
-		    					</div>
-	    					</div>
-    						<div class="bottom-area d-flex px-3">
-	    						<div class="m-auto d-flex">
-	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-	    								<span><i class="ion-ios-menu"></i></span>
-	    							</a>
-	    							<a href="{{ route('cart.index') }}" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
-	    							<a href="{{ route('wish.index') }}" class="heart d-flex justify-content-center align-items-center ">
-	    								<span><i class="ion-ios-heart"></i></span>
-	    							</a>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="lp/images/product-3.jpg" alt="Colorlib Template">
-	    					<div class="overlay"></div>
-	    				</a>
-    					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="#">Green Beans</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span>Rp.30.000.00 /kg</span></p>
-		    					</div>
-	    					</div>
-    						<div class="bottom-area d-flex px-3">
-	    						<div class="m-auto d-flex">
-	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-	    								<span><i class="ion-ios-menu"></i></span>
-	    							</a>
-	    							<a href="{{ route('cart.index') }}" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
-	    							<a href="{{ route('wish.index') }}" class="heart d-flex justify-content-center align-items-center ">
-	    								<span><i class="ion-ios-heart"></i></span>
-	    							</a>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="lp/images/product-4.jpg" alt="Colorlib Template">
-    						<div class="overlay"></div>
-    					</a>
-    					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="#">Purple Cabbage</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span>Rp.30.000.00 /kg</span></p>
-		    					</div>
-	    					</div>
-    						<div class="bottom-area d-flex px-3">
-	    						<div class="m-auto d-flex">
-	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-	    								<span><i class="ion-ios-menu"></i></span>
-	    							</a>
-	    							<a href="{{ route('cart.index') }}" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
-	    							<a href="{{ route('wish.index') }}" class="heart d-flex justify-content-center align-items-center ">
-	    								<span><i class="ion-ios-heart"></i></span>
-	    							</a>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-
-
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="lp/images/product-5.jpg" alt="Colorlib Template">
-    						<!-- <span class="status">30%</span>
-    						<div class="overlay"></div> -->
-    					</a>
-    					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="#">Tomatoe</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-								<p class="price"><span>Rp.30.000.00 /kg</span></p>
-		    					</div>
-	    					</div>
-	    					<div class="bottom-area d-flex px-3">
-	    						<div class="m-auto d-flex">
-	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-	    								<span><i class="ion-ios-menu"></i></span>
-	    							</a>
-	    							<a href="{{ route('cart.index') }}" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
-	    							<a href="{{ route('wish.index') }}" class="heart d-flex justify-content-center align-items-center ">
-	    								<span><i class="ion-ios-heart"></i></span>
-	    							</a>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="lp/images/product-6.jpg" alt="Colorlib Template">
-    						<div class="overlay"></div>
-    					</a>
-    					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="#">Brocolli</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span>Rp.30.000.00 /kg</span></p>
-		    					</div>
-	    					</div>
-    						<div class="bottom-area d-flex px-3">
-	    						<div class="m-auto d-flex">
-	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-	    								<span><i class="ion-ios-menu"></i></span>
-	    							</a>
-	    							<a href="{{ route('cart.index') }}" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
-	    							<a href="{{ route('wish.index') }}" class="heart d-flex justify-content-center align-items-center ">
-	    								<span><i class="ion-ios-heart"></i></span>
-	    							</a>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="lp/images/product-7.jpg" alt="Colorlib Template">
-	    					<div class="overlay"></div>
-	    				</a>
-    					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="#">Carrots</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span>Rp.30.000.00 /kg</span></p>
-		    					</div>
-	    					</div>
-    						<div class="bottom-area d-flex px-3">
-	    						<div class="m-auto d-flex">
-	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-	    								<span><i class="ion-ios-menu"></i></span>
-	    							</a>
-	    							<a href="{{ route('cart.index') }}" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
-	    							<a href="{{ route('wish.index') }}" class="heart d-flex justify-content-center align-items-center ">
-	    								<span><i class="ion-ios-heart"></i></span>
-	    							</a>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="lp/images/product-8.jpg" alt="Colorlib Template">
-    						<div class="overlay"></div>
-    					</a>
-    					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="#">Fruit Juice</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span>Rp.30.000.00 /kg</span></p>
-		    					</div>
-	    					</div>
-    						<div class="bottom-area d-flex px-3">
-	    						<div class="m-auto d-flex">
-	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-	    								<span><i class="ion-ios-menu"></i></span>
-	    							</a>
-	    							<a href="{{ route('cart.index') }}" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
-	    							<a href="{{ route('wish.index') }}" class="heart d-flex justify-content-center align-items-center ">
-	    								<span><i class="ion-ios-heart"></i></span>
-	    							</a>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
+				@endforeach
     		</div>
     	</div>
     </section>
@@ -534,7 +342,10 @@
 	              </ul>
 	            </div>
             </div>
-			<div class="row">
+        </div>
+      </div>
+    </footer>
+	<div class="row">
           <div class="col-md-12 text-center">
 
             <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -542,10 +353,6 @@
 						  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 						</p>
           </div>
-          </div>
         </div>
-      </div>
-    </footer>
-
     @endsection
 

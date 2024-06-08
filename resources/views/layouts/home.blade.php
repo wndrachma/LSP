@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{ asset('lp/css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('lp/css/icomoon.css') }}">
     <link rel="stylesheet" href="{{ asset('lp/css/style.css') }}">
+    
   </head>
 
   @yield('content')

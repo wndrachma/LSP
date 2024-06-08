@@ -27,6 +27,67 @@
     <link rel="stylesheet" href="{{ asset('lp/css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('lp/css/icomoon.css') }}">
     <link rel="stylesheet" href="{{ asset('lp/css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+/* Adjustments for form layout */
+        #product {
+        padding-top: 50px; /* Add some space at the top */
+        }
+
+        .form-label {
+        font-weight: bold;
+        }
+
+        .rating {
+        margin-bottom: 20px; /* Add space below the rating */
+        }
+
+        .fas.fa-star:hover,
+        .fas.fa-star.clicked {
+            color: yellow;
+        }
+
+        /* Styling for the review section */
+        .page-section.product {
+        padding: 50px 0; /* Add padding above and below the section */
+        background-color: #f8f9fa; /* Set background color */
+        }
+
+        .card-header {
+        background-color: #71b533; /* Match the color used in the template */
+        border: none; /* Remove border */
+        padding: 10px 20px; /* Add padding */
+        color: #ffffff; /* White text color */
+        }
+
+        .card-body {
+        background-color: #ffffff; /* White background for card body */
+        border: 1px solid #dee2e6; /* Add border */
+        border-radius: 5px; /* Add border radius */
+        padding: 20px; /* Add padding */
+        margin-top: 20px; /* Add space between cards */
+        }
+
+        .card-title {
+        margin-bottom: 10px; /* Add space below card title */
+        color: #71b533; /* Match the color used in the template */
+        }
+
+        .card-text {
+        margin-bottom: 0; /* Remove default margin */
+        color: #343a40; /* Dark gray color for card text */
+        }
+
+        .btn-primary {
+        background-color: #71b533; /* Match the color used in the template */
+        border-color: #71b533; /* Match the color used in the template */
+        }
+
+        .btn-primary:hover {
+        background-color: #5a9926; /* Darker shade for hover effect */
+        border-color: #5a9926; /* Darker shade for hover effect */
+        }
+    </style>
   </head>
 
   @yield('content')

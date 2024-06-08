@@ -27,6 +27,7 @@
               	<a class="dropdown-item" href="{{ route('wish.index') }}">Wishlist</a>
               </div>
             </li>
+            <li class="nav-item"><a href="{{ route('review') }}" class="nav-link">Review</a></li>
 	          <li class="nav-item active"><a href="{{ route('about.index') }}" class="nav-link">About</a></li>
             <li class="nav-item mx-0 mx-lg-1 py-3 px-0 px-lg-3 rounded text-white">
                         @if (Auth::guard('customers')->check())
@@ -47,7 +48,7 @@
                             href="{{route('login')}}">Login</a></li>
                     @endif
                     </li>
-	          <li class="nav-item cta cta-colored"><a href="{{ route('cart.index') }}" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item cta cta-colored"><a href="{{ route('landingpage.cart') }}" class="nav-link"><span class="icon-shopping_cart"></span></a></li>
 
 	        </ul>
 	      </div>

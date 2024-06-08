@@ -15,6 +15,10 @@ use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\Landing\CartController;
+use App\Http\Controllers\Landing\BeliController;
+use App\Http\Controllers\Landing\CheckoutVwController;
 use App\Models\User;
 
 /*
@@ -32,14 +36,32 @@ use App\Models\User;
 //     return view('welcome');
 // });
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('homepage');
+
+//shop
 Route::get('/shop', [\App\Http\Controllers\Landing\ShopController::class, 'index'])->name('shop');
 Route::get('/produk-detail/{id}', [\App\Http\Controllers\Landing\ShopController::class, 'produk_detail'])->name('produk.detail');
 Route::get('/shop/category/{category_id}', [\App\Http\Controllers\Landing\ShopController::class, 'filterByCategory'])->name('shop.category');
-Route::resource('cart', \App\Http\Controllers\CartController::class);
-Route::resource('beli', \App\Http\Controllers\BeliController::class);
+
+//cart
+Route::get('/cart', [\App\Http\Controllers\Landing\CartController::class, 'index'])->name('landingpage.cart');
+Route::post('/cart/store/{id}', [CartController::class, 'store'])->name('cart.store');
+Route::get('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/remove/{id}', [CartController::class, 'remove'])->name('remove');
+
+//review
+Route::resource('review', ReviewController::class);
+Route::get('review', [ReviewController::class, 'index'])->name('review');
+Route::get('store', [ReviewController::class, 'store'])->name('landingpage.review');
+
+// Checkoutvw 
+Route::post('/checkout', [CheckoutVwController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/process', [CheckoutVwController::class, 'process'])->name('checkoutvw.process');
+Route::resource('/checkoutvw', \App\Http\Controllers\Landing\CheckoutVwController::class);
+
 Route::resource('wish', \App\Http\Controllers\WishController::class);
 Route::resource('about', \App\Http\Controllers\AboutController::class);
 Route::resource('contact', \App\Http\Controllers\ContactController::class);
+
 
 //dashboard
 Route::resource('dashboard', \App\Http\Controllers\DashboardController::class);

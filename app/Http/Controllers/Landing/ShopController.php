@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Landing;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Product;
+use App\Models\Cart;
+use App\Models\Discount;
 use App\Models\ProductCategories;
 
 class ShopController extends Controller
@@ -16,7 +19,9 @@ class ShopController extends Controller
     {
         $categori = ProductCategories::all();
         $produk = Product::all();
-        // dd($categori);
+        // $totalQuantity = DB::table('cart')
+        // ->where('customer_id', $customer_id)
+        // ->sum('quantity');
         return view('landingpage.shop', compact('produk', 'categori'));
     }
 
@@ -25,8 +30,14 @@ class ShopController extends Controller
      */
     public function produk_detail($id)
     {
+        $product = Product::find($id);
+        $discounts = Discount::find('percentage');
         $produkDetail = Product::where('id', $id)->get();
-        return view('landingpage.produk-detail', compact('produkDetail'));
+
+        if (!$product) {
+            return redirect()->route('home')->with('error', 'Product not found.');
+        }
+        return view('landingpage.produk-detail', compact('product',  'produkDetail'));
     }
 
     public function filterByCategory($product_category_id)

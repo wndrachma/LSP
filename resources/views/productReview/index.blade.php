@@ -63,6 +63,7 @@
                       <td>
                         {{ $data->comment }}
                       </td>
+                      
                       <td class="align-middle text-center text-sm">
                       <a href=" {{ route ('productReview.edit', $data) }}"
                                 class="btn btn-primary">Edit</a>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_reviews', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id')->unique();
+            $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('product_id')->unique();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');

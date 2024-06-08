@@ -27,6 +27,7 @@
               	<a class="dropdown-item" href="{{ route('wish.index') }}">Wishlist</a>
               </div>
             </li>
+            <li class="nav-item"><a href="{{ route('review') }}" class="nav-link">Review</a></li>
 	          <li class="nav-item"><a href="{{ route('about.index') }}" class="nav-link">About</a></li>
 			  <li class="nav-item mx-0 mx-lg-1 py-3 px-0 px-lg-3 rounded text-white">
                         @if (Auth::guard('customers')->check())
@@ -47,7 +48,7 @@
                             href="{{route('login')}}">Login</a></li>
                     @endif
                     </li>
-	          <li class="nav-item cta cta-colored"><a href="{{ route('cart.index') }}" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item cta cta-colored"><a href="{{ route('landingpage.cart') }}" class="nav-link"><span class="icon-shopping_cart"></span></a></li>
 
 	        </ul>
 	      </div>
@@ -76,161 +77,32 @@
                         <div class="col-md-6" style="align-content: center">
                             <h1>{{ $produkD->product_name }}</h1>
                             <p>
-                                @if ($produkD->percentage && isset($produkD->discounted_price))
-                                    <span class="badge badge-success">{{ $produkD->percentage }}% Off</span>
-                                    <del class="text-muted">Rp {{ $produkD->price }}</del>
-                                    <span class="discounted-price">Rp{{ $produkD->discounted_price }}</span>
-                                @else
-                                    <span class="price">Price : Rp.{{ $produkD->price }}</span>
-                                @endif
+                            @if ($product->discounts->isNotEmpty())
+                                @foreach ($product->discounts as $discount)
+                                    <span class="badge badge-success">{{ $discount->percentage }}% Off</span>
+                                    <span class="discounted-price" style="display: block;">Price : Rp {{ number_format($product->price - ($product->price * $discount->percentage / 100), 0, ',', '.') }} / kg</span>
+                                @endforeach
+                            @else
+                                <span class="price">Price : Rp {{ number_format($product->price, 0, ',', '.') }} / kg</span>
+                            @endif
                             </p>
                             <P>Stok : {{ $produkD->stok_quantity }}</P>
                             <p>Description : {{ $produkD->description }}</p>
-                            <form class="add-to-cart-form" action="{{ route('cart.store') }}" method="POST">
+                            <form class="add-to-cart-form" action="{{ route('cart.store', $produkD->id) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $produkD->id }}">
                                 <input type="hidden" name="price" value="{{ $produkD->price }}">
-                                <button class="btn btn-sm btn-success" id="add-to-cart" onclick="addToCart()"
+                                <button class="btn btn-sm btn-success" id="add-to-cart" 
                                     type="submit">
                                     <i class="ti-shopping-cart"></i> Add to Cart
                                 </button>
                             </form>
-				@endforeach
-          	</div>
-    			</div>
-    		</div>
-    	</div>
+                      @endforeach
+                    </div>
+                  </div>
+                </div>
+              </div>
     </section>
-
-    <section class="ftco-section">
-    	<div class="container">
-				<div class="row justify-content-center mb-3 pb-3">
-          <div class="col-md-12 heading-section text-center ftco-animate">
-          	<span class="subheading">Products</span>
-            <h2 class="mb-4">Related Products</h2>
-            <p>We stock the finest selections from local gardens to ensure unmatched freshness and quality. </p>
-          </div>
-        </div>   		
-    	</div>
-    	<div class="container">
-    		<div class="row">
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="lp/images/product-1.jpg" alt="Colorlib Template">
-    						<span class="status">30%</span>
-    						<div class="overlay"></div>
-    					</a>
-    					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="#">Bell Pepper</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span class="mr-2 price-dc">$120.00</span><span class="price-sale">$80.00</span></p>
-		    					</div>
-	    					</div>
-	    					<div class="bottom-area d-flex px-3">
-	    						<div class="m-auto d-flex">
-	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-	    								<span><i class="ion-ios-menu"></i></span>
-	    							</a>
-	    							<a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
-	    							<a href="#" class="heart d-flex justify-content-center align-items-center ">
-	    								<span><i class="ion-ios-heart"></i></span>
-	    							</a>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="lp/images/product-2.jpg" alt="Colorlib Template">
-    						<div class="overlay"></div>
-    					</a>
-    					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="#">Strawberry</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span>$120.00</span></p>
-		    					</div>
-	    					</div>
-    						<div class="bottom-area d-flex px-3">
-	    						<div class="m-auto d-flex">
-	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-	    								<span><i class="ion-ios-menu"></i></span>
-	    							</a>
-	    							<a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
-	    							<a href="#" class="heart d-flex justify-content-center align-items-center ">
-	    								<span><i class="ion-ios-heart"></i></span>
-	    							</a>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="lp/images/product-3.jpg" alt="Colorlib Template">
-	    					<div class="overlay"></div>
-	    				</a>
-    					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="#">Green Beans</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span>$120.00</span></p>
-		    					</div>
-	    					</div>
-    						<div class="bottom-area d-flex px-3">
-	    						<div class="m-auto d-flex">
-	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-	    								<span><i class="ion-ios-menu"></i></span>
-	    							</a>
-	    							<a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
-	    							<a href="#" class="heart d-flex justify-content-center align-items-center ">
-	    								<span><i class="ion-ios-heart"></i></span>
-	    							</a>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    			<div class="col-md-6 col-lg-3 ftco-animate">
-    				<div class="product">
-    					<a href="#" class="img-prod"><img class="img-fluid" src="lp/images/product-4.jpg" alt="Colorlib Template">
-    						<div class="overlay"></div>
-    					</a>
-    					<div class="text py-3 pb-4 px-3 text-center">
-    						<h3><a href="#">Purple Cabbage</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-		    						<p class="price"><span>$120.00</span></p>
-		    					</div>
-	    					</div>
-    						<div class="bottom-area d-flex px-3">
-	    						<div class="m-auto d-flex">
-	    							<a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-	    								<span><i class="ion-ios-menu"></i></span>
-	    							</a>
-	    							<a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
-	    							<a href="#" class="heart d-flex justify-content-center align-items-center ">
-	    								<span><i class="ion-ios-heart"></i></span>
-	    							</a>
-    							</div>
-    						</div>
-    					</div>
-    				</div>
-    			</div>
-    		</div>
-    	</div>
-    </section>
-
 		
         <div class="row">
           <div class="col-md-12 text-center">

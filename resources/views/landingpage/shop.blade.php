@@ -27,6 +27,7 @@
               	<a class="dropdown-item" href="{{ route('wish.index') }}">Wishlist</a>
               </div>
             </li>
+			<li class="nav-item"><a href="{{ route('review') }}" class="nav-link">Review</a></li>
 	          <li class="nav-item"><a href="{{ route('about.index') }}" class="nav-link">About</a></li>
 			  <li class="nav-item mx-0 mx-lg-1 py-3 px-0 px-lg-3 rounded text-white">
                         @if (Auth::guard('customers')->check())
@@ -47,7 +48,7 @@
                             href="{{route('login')}}">Login</a></li>
                     @endif
                     </li>
-	          <li class="nav-item cta cta-colored"><a href="{{ route('cart.index') }}" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+	          <li class="nav-item cta cta-colored"><a href="{{ route('landingpage.cart') }}" class="nav-link"><span class="icon-shopping_cart"></span></a></li>
 
 	        </ul>
 	      </div>
@@ -59,7 +60,7 @@
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
           <div class="col-md-9 ftco-animate text-center">
-            <h1 class="mb-0 bread">Detail Product</h1>
+            <h1 class="mb-0 bread">Product</h1>
           </div>
         </div>
       </div>
@@ -85,19 +86,29 @@
     					</a>
     					<div class="text py-3 pb-4 px-3 text-center">
     						<h3><a href="/produk-detail/{{ $produkD->id }}">{{ $produkD->product_name}}</a></h3>
-    						<div class="d-flex">
-    							<div class="pricing">
-								<p class="price"><span>Rp. {{ number_format($produkD->price, 0) }} /kg</span></p>
-		    					</div>
-	    					</div>
+    						<p class="card-text">
+                            @if ($produkD->discounts->isNotEmpty())
+                                @foreach ($produkD->discounts as $discount)
+                                    <span class="badge bg-danger">{{ $discount->percentage }}% Off</span>
+                                    <del class="text-muted">Rp {{ number_format($produkD->price, 0) }} /Kg</del>
+                                    <span class="discounted-price">Rp{{ number_format($produkD->price - ($produkD->price * $discount->percentage / 100), 0) }} /Kg</span>
+                                @endforeach
+                            @else
+                                <span class="price">Rp {{ number_format($produkD->price, 0) }} /Kg</span>
+                            @endif
+                        </p>
 	    					<div class="bottom-area d-flex px-3">
 	    						<div class="m-auto d-flex">
 	    							<a href="{{ route('produk.detail', $produkD->id) }}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
 	    								<span><i class="ion-ios-menu"></i></span>
 	    							</a>
-	    							<a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-	    								<span><i class="ion-ios-cart"></i></span>
-	    							</a>
+									<a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1" onclick="event.preventDefault(); document.getElementById('add-to-cart-form-{{ $produkD->id }}').submit();">
+									<span><i class="ion-ios-cart"></i></span>
+									</a>
+									<form id="add-to-cart-form-{{ $produkD->id }}" action="{{ route('cart.store', $produkD->id) }}" method="POST" style="display: none;">
+										@csrf
+										<input type="hidden" name="quantity" value="1">
+									</form>
 	    							<a href="#" class="heart d-flex justify-content-center align-items-center ">
 	    								<span><i class="ion-ios-heart"></i></span>
 	    							</a>

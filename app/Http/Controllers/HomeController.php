@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\ProductCategories;
 
 class HomeController extends Controller
 {
@@ -11,7 +14,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('homepage');
+        $products = Product::all()
+        ->sortByDesc('id')
+        ->take(8);
+
+        $productCategories = ProductCategories::all();
+        return view('homepage', compact('products', 'productCategories'));
     }
 
     /**
