@@ -22,7 +22,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
               <div class="dropdown-menu" aria-labelledby="dropdown04">
               	<a class="dropdown-item" href="{{ route('shop') }}">Shop</a>
-              	<a class="dropdown-item" href="{{ route('wish.index') }}">Wishlist</a>
+              	<a class="dropdown-item" href="{{ route('review') }}">Review Product</a>
               </div>
             </li>
 	          <li class="nav-item"><a href="{{ route('about.index') }}" class="nav-link">About</a></li>

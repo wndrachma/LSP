@@ -46,9 +46,35 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, $period)
     {
-        //
+        $salesData = [];
+
+        switch ($period) {
+            case 'daily':
+                $salesData['period'] = 'Today';
+                $salesData['details'] = Order::whereDate('order_date', today())->get();
+                break;
+            case 'weekly':
+                $salesData['period'] = 'This Week';
+                $salesData['details'] = Order::whereBetween('order_date', [now()->startOfWeek(), now()->endOfWeek()])->get();
+                break;
+            case 'monthly':
+                $salesData['period'] = 'This Month';
+                $salesData['details'] = Order::whereYear('order_date', now()->year)
+                    ->whereMonth('order_date', now()->month)
+                    ->get();
+                break;
+            case 'annual':
+                $salesData['period'] = 'This Year';
+                $salesData['details'] = Order::whereYear('order_date', now()->year)
+                    ->get();
+                break;
+            default:
+                return redirect()->back()->with('error', 'Invalid period selected.');
+        }
+
+        return view('orders.detail', compact('salesData'));
     }
 
     /**

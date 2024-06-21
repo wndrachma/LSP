@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
@@ -88,18 +89,25 @@ class CheckoutVwController extends Controller
         // Membuat order baru
         $order = Order::create([
             'customer_id' => $customer_id,
-            'order_time' => $orderTime,
+            'order_date' => $orderTime,
             'total_amount' => $request->input('total_amount'),
             'status' => 'Proses',
         ]);
 
+        //Mengambil item yang dipilih dari keranjang belanja
+        $selectedItems = $request->input('selected_items', []);
+        if (empty($selectedItems)) {
+            return redirect()->back()->with('error', 'No items selected for checkout.');
+        }
+
         // Mengambil item di keranjang belanja
-        $cartItems = DB::table('')
-            ->join('products', '.product_id', '=', 'products.id')
+        $cartItems = DB::table('carts')
+            ->join('products', 'carts.product_id', '=', 'products.id')
             ->leftJoin('discounts', 'products.id', '=', 'discounts.product_id')
-            ->where('.customer_id', $customer_id)
+            ->where('carts.customer_id', $customer_id)
+            ->whereIn('carts.id', $selectedItems)
             ->select(
-                '.*',
+                'carts.*',
                 'products.product_name',
                 'products.price',
                 'products.image1_url',
@@ -116,7 +124,7 @@ class CheckoutVwController extends Controller
 
         foreach ($cartItems as $item) {
             // Cek apakah item dengan product_id yang sama sudah ada di order_details
-            $existingOrderDetail = Order_details::where('order_id', $order->id)
+            $existingOrderDetail = OrderDetail::where('order_id', $order->id)
                 ->where('product_id', $item->product_id)
                 ->first();
 
@@ -127,7 +135,7 @@ class CheckoutVwController extends Controller
                 $existingOrderDetail->save();
             } else {
                 // Jika belum ada, buat item baru di order_details
-                Order_details::create([
+                OrderDetail::create([
                     'order_id' => $order->id,
                     'product_id' => $item->product_id,
                     'quantity' => $item->quantity,
@@ -136,12 +144,23 @@ class CheckoutVwController extends Controller
             }
         }
 
-        // Mengarahkan kembali ke halaman checkout dengan informasi order
-        return redirect()->route('landingpage.checkoutvw')->with([
+        Payment::create([
             'order_id' => $order->id,
+            'payment_date' => $request->input('payment_date'),
+            'payment_method' => $request->input('payment_method'),
+            'amount' => $order->total_amount,
         ]);
-    }
 
+        //menghapus item yang dipilih dari keranjang
+        Cart::where('customer_id', $customer_id)
+            ->whereIn('id', $selectedItems)
+            ->delete();
+        
+            $request->session()->flash('order_placed', true);
+
+        // Mengarahkan kembali ke halaman checkout dengan informasi order
+        return redirect()->route('landingpage.checkoutvw')->with('success', 'Order and Payment');
+    }
 
 
 

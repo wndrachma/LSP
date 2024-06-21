@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Waktu pembuatan: 22 Bulan Mei 2024 pada 13.03
+-- Waktu pembuatan: 21 Jun 2024 pada 17.07
 -- Versi server: 10.4.27-MariaDB-log
 -- Versi PHP: 8.2.0
 
@@ -20,6 +20,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `dblsp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `carts`
+--
+
+CREATE TABLE `carts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `customer_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `carts`
+--
+
+INSERT INTO `carts` (`id`, `customer_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
+(10, 1, 11, 1, 14000, '2024-05-28 21:19:02', '2024-05-28 21:19:02'),
+(11, 1, 13, 1, 30000, '2024-05-28 21:21:18', '2024-05-28 21:21:18'),
+(12, 1, 30, 1, 25000, '2024-05-28 21:24:57', '2024-05-28 21:24:57'),
+(18, 3, 17, 1, 35000, '2024-06-08 07:34:27', '2024-06-08 07:34:27'),
+(24, 7, 14, 1, 15000, '2024-06-09 21:24:09', '2024-06-09 21:24:09');
 
 -- --------------------------------------------------------
 
@@ -47,7 +74,8 @@ CREATE TABLE `customers` (
 INSERT INTO `customers` (`id`, `name`, `email`, `password`, `phone`, `address1`, `address2`, `address3`, `created_at`, `updated_at`) VALUES
 (1, 'rahma', 'rahma@gmail.com', '$2y$12$1tkWXdsX13MgpUzWHmAt.ONOGLzRZz9s9.zt7bfKEFonYCfMbyluO', '0987650876', 'jl.seoul', 'jl.melon', 'jl.anggur', '2024-05-20 01:40:38', '2024-05-20 01:40:38'),
 (3, 'nana', 'nana@gmail.com', '$2y$12$TZwNeJvSiqlppnqw1P0okumr2Dc8WAsJvjqy871NUukgElEqZ99w2', '089679747864', 'seoul', 'rtyu', 'ffgfd', '2024-05-21 05:41:48', '2024-05-21 05:41:48'),
-(6, 'jisung', 'jsng@gmail.com', '$2y$12$8EYDbDijXN8BvJt4QvHzaeuFcBBZWZvLpJH46O/fS4s06d3aby9bK', '08967974', 'seoul', 'rtyu', 'ffgfd', '2024-05-21 05:50:01', '2024-05-21 05:50:01');
+(6, 'jisung', 'jsng@gmail.com', '$2y$12$8EYDbDijXN8BvJt4QvHzaeuFcBBZWZvLpJH46O/fS4s06d3aby9bK', '08967974', 'seoul', 'rtyu', 'ffgfd', '2024-05-21 05:50:01', '2024-05-21 05:50:01'),
+(7, 'Doni', 'd@gmail.com', '$2y$12$IrY.Ff4KmTsIuO6n0zKaT.VYfMJva9EuF5Qed1HBCxKGRp/jDMlUe', '76786786778678', 'SMKN 1 Cibinong', 'Bogor', 'JAKARTA', '2024-06-09 21:01:08', '2024-06-09 21:01:08');
 
 -- --------------------------------------------------------
 
@@ -82,6 +110,16 @@ CREATE TABLE `discounts` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data untuk tabel `discounts`
+--
+
+INSERT INTO `discounts` (`id`, `category_discount_id`, `product_id`, `start_date`, `end_date`, `percentage`, `created_at`, `updated_at`) VALUES
+(2, 1, 13, '2024-05-29 08:11:00', '2024-06-08 08:11:00', 20, '2024-05-28 18:12:01', '2024-05-28 18:12:01'),
+(3, 1, 16, '2024-05-29 08:12:00', '2024-06-08 08:12:00', 15, '2024-05-28 18:12:38', '2024-05-28 18:12:38'),
+(4, 1, 23, '2024-05-29 08:12:00', '2024-06-08 08:13:00', 20, '2024-05-28 18:13:09', '2024-05-28 18:13:09'),
+(5, 1, 29, '2024-05-29 11:23:00', '2024-06-08 11:24:00', 10, '2024-05-28 21:24:11', '2024-05-28 21:24:11');
+
 -- --------------------------------------------------------
 
 --
@@ -94,6 +132,13 @@ CREATE TABLE `discount_categories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `discount_categories`
+--
+
+INSERT INTO `discount_categories` (`id`, `category_name`, `created_at`, `updated_at`) VALUES
+(1, 'April Big Sale', '2024-05-28 00:01:45', '2024-05-28 00:01:45');
 
 -- --------------------------------------------------------
 
@@ -142,7 +187,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (12, '2024_03_28_072925_create_payments_table', 1),
 (13, '2024_03_28_072942_create_deliveries_table', 1),
 (14, '2024_03_28_073003_create_product_reviews_table', 1),
-(15, '2024_03_28_073024_create_wishlists_table', 1);
+(15, '2024_03_28_073024_create_wishlists_table', 1),
+(16, '2024_05_27_015433_create_carts_table', 2);
 
 -- --------------------------------------------------------
 
@@ -160,6 +206,29 @@ CREATE TABLE `orders` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data untuk tabel `orders`
+--
+
+INSERT INTO `orders` (`id`, `customer_id`, `order_date`, `total_amount`, `status`, `created_at`, `updated_at`) VALUES
+(3, 3, '2024-06-08 14:00:39', 64000, 'Proses', '2024-06-08 07:00:39', '2024-06-08 07:00:39'),
+(6, 3, '2024-06-08 14:02:25', 64000, 'Proses', '2024-06-08 07:02:25', '2024-06-08 07:02:25'),
+(7, 3, '2024-06-08 14:03:20', 64000, 'Proses', '2024-06-08 07:03:20', '2024-06-08 07:03:20'),
+(8, 3, '2024-06-08 14:32:46', 15000, 'Proses', '2024-06-08 07:32:46', '2024-06-08 07:32:46'),
+(9, 3, '2024-06-08 14:35:09', 35000, 'Proses', '2024-06-08 07:35:09', '2024-06-08 07:35:09'),
+(10, 3, '2024-06-08 14:52:17', 65000, 'Proses', '2024-06-08 07:52:17', '2024-06-08 07:52:17'),
+(11, 3, '2024-06-09 10:13:09', 30000, 'Proses', '2024-06-09 03:13:09', '2024-06-09 03:13:09'),
+(12, 3, '2024-06-09 10:14:55', 30000, 'Proses', '2024-06-09 03:14:55', '2024-06-09 03:14:55'),
+(13, 3, '2024-06-09 10:25:55', 50000, 'Proses', '2024-06-09 03:25:55', '2024-06-09 03:25:55'),
+(14, 3, '2024-06-09 10:30:12', 85000, 'Proses', '2024-06-09 03:30:12', '2024-06-09 03:30:12'),
+(15, 3, '2024-06-09 11:00:04', 20000, 'Proses', '2024-06-09 04:00:04', '2024-06-09 04:00:04'),
+(16, 3, '2024-06-09 11:09:21', 20000, 'Proses', '2024-06-09 04:09:21', '2024-06-09 04:09:21'),
+(17, 3, '2024-06-09 11:32:58', 30000, 'Proses', '2024-06-09 04:32:58', '2024-06-09 04:32:58'),
+(18, 3, '2024-06-09 11:34:18', 30000, 'Proses', '2024-06-09 04:34:18', '2024-06-09 04:34:18'),
+(19, 3, '2024-06-09 12:08:12', 20000, 'Proses', '2024-06-09 05:08:12', '2024-06-09 05:08:12'),
+(20, 1, '2024-06-10 01:37:35', 35000, 'Proses', '2024-06-09 18:37:35', '2024-06-09 18:37:35'),
+(21, 7, '2024-06-10 04:07:03', 48000, 'Proses', '2024-06-09 21:07:03', '2024-06-09 21:07:03');
+
 -- --------------------------------------------------------
 
 --
@@ -175,6 +244,25 @@ CREATE TABLE `order_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `order_details`
+--
+
+INSERT INTO `order_details` (`id`, `product_id`, `order_id`, `quantity`, `subtotal`, `created_at`, `updated_at`) VALUES
+(4, 12, 3, 2, 24000, '2024-06-08 07:00:39', '2024-06-08 07:00:39'),
+(5, 14, 3, 1, 15000, '2024-06-08 07:00:39', '2024-06-08 07:00:39'),
+(6, 30, 3, 1, 25000, '2024-06-08 07:00:39', '2024-06-08 07:00:39'),
+(13, 12, 6, 2, 24000, '2024-06-08 07:02:25', '2024-06-08 07:02:25'),
+(14, 14, 6, 1, 15000, '2024-06-08 07:02:25', '2024-06-08 07:02:25'),
+(24, 29, 10, 1, 27000, '2024-06-08 07:52:17', '2024-06-08 07:52:17'),
+(25, 17, 10, 1, 35000, '2024-06-08 07:52:17', '2024-06-08 07:52:17'),
+(26, 29, 17, 1, 27000, '2024-06-09 04:32:58', '2024-06-09 04:32:58'),
+(27, 29, 18, 1, 27000, '2024-06-09 04:34:18', '2024-06-09 04:34:18'),
+(28, 25, 19, 1, 20000, '2024-06-09 05:08:12', '2024-06-09 05:08:12'),
+(29, 28, 20, 1, 35000, '2024-06-09 18:37:35', '2024-06-09 18:37:35'),
+(30, 13, 21, 1, 24000, '2024-06-09 21:07:03', '2024-06-09 21:07:03'),
+(31, 33, 21, 1, 18000, '2024-06-09 21:07:03', '2024-06-09 21:07:03');
 
 -- --------------------------------------------------------
 
@@ -203,6 +291,16 @@ CREATE TABLE `payments` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `payments`
+--
+
+INSERT INTO `payments` (`id`, `order_id`, `payment_date`, `payment_method`, `amount`, `created_at`, `updated_at`) VALUES
+(1, 18, '2024-06-09 18:32:00', 'Transfer - Non Tunai', 30000, '2024-06-09 04:34:18', '2024-06-09 04:34:18'),
+(2, 19, '2024-06-09 19:08:00', 'Cash - Tunai', 20000, '2024-06-09 05:08:12', '2024-06-09 05:08:12'),
+(3, 20, '2024-06-21 08:37:00', 'Cash - Tunai', 35000, '2024-06-09 18:37:35', '2024-06-09 18:37:35'),
+(4, 21, '2024-06-10 11:06:00', 'Transfer - Non Tunai', 48000, '2024-06-09 21:07:03', '2024-06-09 21:07:03');
 
 -- --------------------------------------------------------
 
@@ -260,16 +358,16 @@ INSERT INTO `products` (`id`, `product_category_id`, `product_name`, `descriptio
 (18, 14, 'Bawang Putih', 'Bawang putih kami dipilih dengan teliti untuk memastikan kesegaran dan rasa yang optimal. Kami menyediakan bawang putih dengan tekstur yang kokoh dan aroma yang kuat.', 20000, 20, 'Photos/LkswsvkJ7yb4aNh0Le6JtccVSUODDVcadcLL15sq.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:16:30', '2024-05-22 02:16:30'),
 (19, 14, 'Bawang Bombay', 'Bawang bombai kami dipilih secara hati-hati untuk memastikan kesegaran dan kualitas terbaik. Kami menyediakan bawang bombai dengan kulit yang kencang dan daging yang renyah.', 18000, 20, 'Photos/NuPDyu8YSY0gJ4FWTJYGcZLUw1t0sRv5bXeCLeLj.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:18:04', '2024-05-22 02:18:04'),
 (20, 14, 'Daun Bawang', 'Daun bawang kami dipetik dengan teliti untuk memastikan kesegaran dan kelembutan yang optimal. Kami menyediakan daun bawang dengan tangkai yang segar dan daun yang hijau cerah.', 12000, 20, 'Photos/CYQy5IRkN2LpQtbH3zNsvUA1HykRUFCKmgTsRKfx.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:20:58', '2024-05-22 02:20:58'),
-(21, 12, 'Kacang Hijau', 'Kacang hijau kami dipilih secara teliti untuk memastikan kesegaran dan kematangan yang sempurna. Kami menyediakan kacang hijau dengan biji yang utuh dan warna yang cerah.', 10000, 10, 'Photos/8PIFZTqNUzuNUzTG6y8lJe4EgdX0jYl2Cf6YoFqd.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:23:12', '2024-05-22 02:23:12'),
 (22, 13, 'Jeruk', 'Jeruk kami dipilih dengan teliti untuk memastikan kesegaran dan kualitas terbaik. Kami menyediakan jeruk dengan kulit yang kencang dan daging yang juicy.', 25000, 20, 'Photos/3zifjb2tgfADBD7fW5jwDw0DtQ1mt9qviqanpySm.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:26:27', '2024-05-22 02:26:27'),
 (23, 13, 'Kiwi', 'Kiwi kami dipilih secara hati-hati untuk memastikan kematangan yang sempurna dan rasa yang optimal. Kami menyediakan kiwi dengan kulit yang halus dan daging yang juicy.', 30000, 15, 'Photos/oikdkhBItx1hxaFm8St2ztZh7rt2Fd2Pnvi9YvBz.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:28:16', '2024-05-22 02:28:16'),
 (24, 14, 'Kol', 'Kol kami dipilih dengan teliti untuk memastikan kesegaran dan kualitas terbaik. Kami menyediakan kol dengan kepala yang padat dan daun yang segar.', 12000, 15, 'Photos/cXz1Zv2zKykROMc7qAyh6w1vTC0wvD6ju2mbFgMl.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:29:38', '2024-05-22 02:29:38'),
 (25, 13, 'Mangga', 'Mangga kami dipilih secara hati-hati untuk memastikan kematangan yang sempurna dan rasa yang lezat. Kami menyediakan mangga dengan tekstur yang juicy dan aroma yang harum.', 20000, 20, 'Photos/npLXqZkIwlWUJ3Dhzn0e8lg298rdSKi0QBX9FFxr.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:30:53', '2024-05-22 02:30:53'),
-(26, 12, 'Kacang Tanah', 'Kacang tanah kami dipilih dengan teliti untuk memastikan kesegaran dan kualitas terbaik. Kami menyediakan kacang tanah dengan biji yang utuh dan kulit yang renyah.', 18000, 18, 'Photos/9C4OPqnPdzRAcWZ3arGeum9jzlnGnDMh0ruquOv0.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:32:19', '2024-05-22 02:32:19'),
-(27, 12, 'Kacang Mete', 'Kacang mete kami dipilih secara hati-hati untuk memastikan kesegaran dan kualitas terbaik. Kami menyediakan kacang mete dengan biji yang utuh dan kulit yang renyah.', 35000, 16, 'Photos/azIB5arcf9Wm2dXaw6pKegOQaZH6OwTwjNSg6oef.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:34:22', '2024-05-22 02:34:22'),
 (28, 13, 'Manggis', 'Manggis kami dipilih secara hati-hati untuk memastikan kesegaran dan kualitas terbaik. Kami menyediakan manggis dengan kulit yang tebal dan daging yang juicy.', 35000, 25, 'Photos/U5n8UgmIIKhpsNLEB7BO2WXEA7Yo2oxBOGJQvKAe.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:36:56', '2024-05-22 02:36:56'),
 (29, 13, 'Nanas', 'Nanas kami dipilih dengan hati-hati untuk memastikan kematangan yang sempurna dan rasa yang lezat. Kami menyediakan nanas dengan kulit yang tebal dan daging yang juicy.', 30000, 180, 'Photos/rlocC94tmJF0dgXMQy4MXT90uSVSLtPwsGMKr7nj.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:39:44', '2024-05-22 02:39:44'),
-(30, 14, 'Pakcoy', 'Pakcoy kami dipilih dengan teliti untuk memastikan kesegaran dan kualitas terbaik. Kami menyediakan pakcoy dengan daun yang segar dan batang yang renyah.', 25000, 20, 'Photos/NGNGUn1ZrKGaSk8nwKETQoN0BD1Baqsy6EpUDXlK.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:40:53', '2024-05-22 02:40:53');
+(30, 14, 'Pakcoy', 'Pakcoy kami dipilih dengan teliti untuk memastikan kesegaran dan kualitas terbaik. Kami menyediakan pakcoy dengan daun yang segar dan batang yang renyah.', 25000, 20, 'Photos/NGNGUn1ZrKGaSk8nwKETQoN0BD1Baqsy6EpUDXlK.jpg', NULL, NULL, NULL, NULL, '2024-05-22 02:40:53', '2024-05-22 02:40:53'),
+(32, 15, 'Kacang Hijau', 'Kacang hijau kami dipilih secara teliti untuk memastikan kesegaran dan kematangan yang sempurna. Kami menyediakan kacang hijau dengan biji yang utuh dan warna yang cerah.', 10000, 10, 'Photos/U2hQyCJybLONaF4TIBRJbJmubMYsNr3rztjR5Lsx.jpg', NULL, NULL, NULL, NULL, '2024-06-09 03:50:21', '2024-06-09 03:50:21'),
+(33, 15, 'Kacang Tanah', 'Kacang tanah kami dipilih dengan teliti untuk memastikan kesegaran dan kualitas terbaik. Kami menyediakan kacang tanah dengan biji yang utuh dan kulit yang renyah.', 18000, 18, 'Photos/D8nfio9HRpwHB09BNIq6fioSz18RdrqiF6xh2ibF.jpg', NULL, NULL, NULL, NULL, '2024-06-09 03:53:05', '2024-06-09 03:53:05'),
+(34, 15, 'Kacang Mete', 'Kacang mete kami dipilih secara hati-hati untuk memastikan kesegaran dan kualitas terbaik. Kami menyediakan kacang mete dengan biji yang utuh dan kulit yang renyah.', 35000, 16, 'Photos/51D9LSNmeIpaW8Hg7lQLJkPcuaCHiPVfw1VilwXC.jpg', NULL, NULL, NULL, NULL, '2024-06-09 03:54:13', '2024-06-09 03:54:13');
 
 -- --------------------------------------------------------
 
@@ -289,9 +387,9 @@ CREATE TABLE `product_categories` (
 --
 
 INSERT INTO `product_categories` (`id`, `category_name`, `created_at`, `updated_at`) VALUES
-(12, 'Dried', '2024-05-22 00:11:39', '2024-05-22 00:13:34'),
 (13, 'Fruits', '2024-05-22 00:11:51', '2024-05-22 00:12:55'),
-(14, 'Vegetables', '2024-05-22 00:12:38', '2024-05-22 00:12:38');
+(14, 'Vegetables', '2024-05-22 00:12:38', '2024-05-22 00:12:38'),
+(15, 'Peanut', '2024-06-09 03:24:08', '2024-06-09 03:51:29');
 
 -- --------------------------------------------------------
 
@@ -308,6 +406,14 @@ CREATE TABLE `product_reviews` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `product_reviews`
+--
+
+INSERT INTO `product_reviews` (`id`, `customer_id`, `product_id`, `rating`, `comment`, `created_at`, `updated_at`) VALUES
+(6, 3, 25, 5, 'good', '2024-06-07 00:01:20', '2024-06-07 00:01:20'),
+(7, 1, 32, 5, 'sangat bagus', '2024-06-09 06:44:37', '2024-06-09 06:44:37');
 
 -- --------------------------------------------------------
 
@@ -382,6 +488,14 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `carts`
+--
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `carts_customer_id_foreign` (`customer_id`),
+  ADD KEY `carts_product_id_foreign` (`product_id`);
 
 --
 -- Indeks untuk tabel `customers`
@@ -483,7 +597,8 @@ ALTER TABLE `product_categories`
 ALTER TABLE `product_reviews`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `product_reviews_customer_id_unique` (`customer_id`),
-  ADD UNIQUE KEY `product_reviews_product_id_unique` (`product_id`);
+  ADD UNIQUE KEY `product_reviews_product_id_unique` (`product_id`),
+  ADD UNIQUE KEY `customer_id` (`customer_id`);
 
 --
 -- Indeks untuk tabel `users`
@@ -505,10 +620,16 @@ ALTER TABLE `wishlists`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `carts`
+--
+ALTER TABLE `carts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
 -- AUTO_INCREMENT untuk tabel `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `deliveries`
@@ -520,13 +641,13 @@ ALTER TABLE `deliveries`
 -- AUTO_INCREMENT untuk tabel `discounts`
 --
 ALTER TABLE `discounts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `discount_categories`
 --
 ALTER TABLE `discount_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `failed_jobs`
@@ -538,25 +659,25 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT untuk tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT untuk tabel `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT untuk tabel `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT untuk tabel `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `personal_access_tokens`
@@ -568,19 +689,19 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT untuk tabel `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT untuk tabel `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `product_reviews`
 --
 ALTER TABLE `product_reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
@@ -597,6 +718,13 @@ ALTER TABLE `wishlists`
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
+
+--
+-- Ketidakleluasaan untuk tabel `carts`
+--
+ALTER TABLE `carts`
+  ADD CONSTRAINT `carts_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `carts_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `deliveries`

@@ -54,9 +54,10 @@ Route::get('review', [ReviewController::class, 'index'])->name('review');
 Route::get('store', [ReviewController::class, 'store'])->name('landingpage.review');
 
 // Checkoutvw 
-Route::post('/checkout', [CheckoutVwController::class, 'index'])->name('checkout.index');
-Route::post('/checkout/process', [CheckoutVwController::class, 'process'])->name('checkoutvw.process');
 Route::resource('/checkoutvw', \App\Http\Controllers\Landing\CheckoutVwController::class);
+Route::get('/checkout', [CheckoutVwController::class, 'index'])->name('landingpage.checkoutvw');
+Route::post('/checkout', [CheckoutVwController::class, 'checkoutProcess'])->name('checkout.process');
+Route::post('/checkout/store', [CheckoutVwController::class, 'store'])->name('checkout.store');
 
 Route::resource('wish', \App\Http\Controllers\WishController::class);
 Route::resource('about', \App\Http\Controllers\AboutController::class);
@@ -98,6 +99,7 @@ Route::resource('orders', \App\Http\Controllers\OrderController::class);
 Route::post('/beli', [OrderController::class, 'beli'])->name('beli');
 Route::get('/hapusOdr/{id}', [OrderController::class, 'hapusOdr'])->name('hapusOdr');
 Route::get('/orders/hapusOdr/{id}', [OrderController::class, 'hapusOdr']);
+Route::get('/order/{period}', [App\Http\Controllers\OrderController::class, 'show'])->name('order.detail');
 
 
 //customer

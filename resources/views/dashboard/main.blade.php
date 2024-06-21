@@ -40,6 +40,51 @@
       cursor: zoom-in;
       transform:scale(4); /* (150% zoom - Note: if the zoom is too large, it will go outside) */
     }
+      /* Styling specifically for the daily earnings card */
+  /* .card.daily-earnings-card {
+      max-height: 140px;
+  }
+
+  .card.daily-earnings-card .card-body {
+      padding: 10px;
+  }
+
+  .card.daily-earnings-card .text-xs {
+      margin-bottom: 5px;
+  }
+
+  .card.daily-earnings-card .h5 {
+      margin: 0;
+  }
+
+  .card.daily-earnings-card .btn {
+      padding: 5px 10px; 
+  } */
+
+  /* Styling for the specific card */
+/* .card-revenue-sources {
+     max-height: 400px; 
+    overflow-y: auto 
+    padding: 20px; 
+    margin-bottom: 20px; 
+    border-radius: 15px;
+}
+
+.card-revenue-sources .card-header {
+    border-bottom: none; 
+}
+
+.card-revenue-sources .chart-pie {
+    height: 200px;
+}
+
+.card-revenue-sources .dropdown-menu {
+    min-width: 150px;
+}
+
+.card-revenue-sources .dropdown-item {
+    font-size: 14px
+} */
 
   </style>
 </head>

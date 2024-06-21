@@ -14,14 +14,17 @@ class ReviewController extends Controller
 {
     public function index()
     {
-        $customer_id = Auth::guard('customers')->id();
+        $customer_id = Auth::guard('customers')->id(); // Mendapatkan ID pelanggan yang sedang login
+
+        // Query lainnya
         $totalQuantity = DB::table('carts')
             ->where('customer_id', $customer_id)
             ->sum('quantity');
         $product_reviews = ProductReview::all();
-         
+        $customer = Customer::find($customer_id); // Mengambil data pelanggan yang sedang login
+        
         return view('landingpage.review', [
-            'customer_id' => Customer::all(),
+            'customer' => $customer, // Mengirim data pelanggan yang sedang login ke view
             'product_name' => Product::all(),
             'product_reviews' => $product_reviews,
             'totalQuantity' => $totalQuantity

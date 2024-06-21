@@ -22,6 +22,14 @@ class CartController extends Controller
     public function index()
     {
         $cartItems = Cart::with('product')->where('customer_id', auth()->id())->get();
+        // $totalQuantity = DB::tabel('carts')
+        // ->where('customer_id', $customer_id)
+        // ->sum('quantity');
+
+        // return view('landingpage.cart', [
+        //     'totalQuantity' => $totalQuantity,
+        //     'cartItems' => $cartItems
+        // ]);
         return view('landingpage.cart', compact('cartItems'));
     }
 

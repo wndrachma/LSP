@@ -20,10 +20,9 @@
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
                         <div class="dropdown-menu" aria-labelledby="dropdown04">
                             <a class="dropdown-item" href="{{ route('shop') }}">Shop</a>
-                            <a class="dropdown-item" href="{{ route('wish.index') }}">Wishlist</a>
+                            <a class="dropdown-item" href="{{ route('review') }}">Review Product</a>
                         </div>
                     </li>
-                    <li class="nav-item"><a href="{{ route('review') }}" class="nav-link">Review</a></li>
                     <li class="nav-item"><a href="{{ route('about.index') }}" class="nav-link">About</a></li>
                     <li class="nav-item mx-0 mx-lg-1 py-3 px-0 px-lg-3 rounded text-white">
                         @if (Auth::guard('customers')->check())
@@ -124,12 +123,9 @@
                 @csrf
                 <div class="mb-3 ms-3 me-3">
                     <label class="form-label" for="customer_id">Customer Id</label>
-                    <select class="form-control" name="customer_id" id="customer_id" required>
-                        <option selected disabled>Select Customer</option>
-                        @foreach ($customer_id as $cn)
-                            <option value="{{ $cn->id }}">{{ $cn->name }}</option>
-                        @endforeach
-                    </select>
+                    <!-- Menggunakan input tersembunyi untuk menyimpan ID pelanggan -->
+                    <input type="hidden" name="customer_id" id="customer_id" value="{{ $customer->id }}">
+                    <p>{{ $customer->name }}</p> <!-- Menampilkan nama pelanggan yang sedang login -->
                 </div>
                 <div class="mb-3 ms-3 me-3">
                     <label class="form-label" for="product_id">Product Id</label>

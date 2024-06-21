@@ -105,11 +105,11 @@
             </div>
 
             <!-- Nav Item - Deliveries-->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="{{ route('deliveries.index') }}">
                 <i class="fas fa-fw fa-truck"></i>
                     <span>Deliveries</span></a>
-            </li>
+            </li> -->
 
             <!-- Nav Item - Product -->
             <li class="nav-item">
@@ -133,11 +133,11 @@
             </li>
 
             <!-- Nav Item - Wishlist -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="{{ route('wishlist.index') }}">
                     <i class="fas fa-fw fa-heart"></i>
                     <span>Wishlist</span></a>
-            </li>
+            </li> -->
 
 
     <!-- Divider -->

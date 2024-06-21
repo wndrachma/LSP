@@ -27,6 +27,88 @@
     <link rel="stylesheet" href="{{ asset('lp/css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('lp/css/icomoon.css') }}">
     <link rel="stylesheet" href="{{ asset('lp/css/style.css') }}">
+    <style>
+    .checkout-items {
+        background-color: #61a9f1;
+        color: white;
+        padding: 20px;
+        border-radius: 25px;
+        border-style: solid;
+        border-color: #82d9ea;
+        max-width: 80%;
+        margin: auto;
+        text-transform: lowercase; /* Menjadikan semua teks huruf kecil */
+    }
+
+    .checkout-item {
+        display: block; /* Mengubah arah tampilan ke kolom */
+        margin-bottom: 15px;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .checkout-item .product-name {
+        font-size: 1.3em;
+        margin-bottom: 10px;
+        text-align: left;
+        display: block;
+        width: 100%;
+    }
+
+    .checkout-item .quantity,
+    .checkout-item .price,
+    .checkout-item .subtotal {
+        font-size: 1.1em;
+        margin-bottom: 5px; /* Memberi jarak antar elemen */
+        text-align: left;
+        display: block;
+        width: 100%;
+    }
+
+    .total {
+        text-align: right;
+        font-weight: bold;
+        font-size: 1.4em;
+        margin-top: 10px;
+        padding-top: 30px;
+    }
+
+    .btn-primary {
+        border-radius: 20px;
+        width: 100%;
+        margin-top: 20px;
+        font-size: 1.1em;
+    }
+
+    .btn-primary:hover {
+        background-color: #0f5ba2;
+        border-color: #02396d;
+        font-weight: bold;
+    }
+
+    .product-img-container img {
+        width: 80%;
+        display: block;
+        margin: auto;
+    }
+
+    .payment-form {
+        max-width: 80%;
+    }
+
+    .back-button {
+        float: right;
+    }
+
+    .checkout-item .select {
+        display: none;
+    }
+</style>
+
+
+
+
+
   </head>
 
   @yield('content')

@@ -62,30 +62,30 @@
                         @foreach ($cartItems as $index => $item)
                             @php
                                 $discountedPrice = $item->discounted_price;
-                                $subtotal = $item->quantity * $discountedPrice;
+                                $subtotal = $item->subtotal;
                                 $Total += $subtotal;
                             @endphp
-                            <div class="checkout-item mb-4 p-3 border">
+                            <div class="checkout-item">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="product-img-container">
-                                            @if($item->produk && $item->produk->image1_url)
-                                                <img class="card-img-top img-fluid" src="{{ asset('storage/' . $item->produk->image1_url) }}" alt="{{ $item->produk->product_name }}">
+                                            @if($item->product && $item->product->image1_url)
+                                                <img class="card-img-top img-fluid" src="{{ asset('storage/' . $item->product->image1_url) }}" alt="{{ $item->product->product_name }}">
                                             @else
                                                 <img class="card-img-top img-fluid" src="path/to/default/image.jpg" alt="Default Image">
                                             @endif
                                         </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div>
-                                            @if($item->produk && $item->produk->product_name)
-                                                <h5 class="product-name">{{ $item->produk->product_name }}</h5>
+                                    <div>
+                                            @if($item->product && $item->product->product_name)
+                                                <h5 class="product-name">{{ $item->product->product_name }}</h5>
                                             @else
                                                 <h5 class="product-name">Produk tidak ditemukan</h5>
                                             @endif
                                             <div class="quantity">Quantity: {{ $item->quantity }} kg</div>
                                             <div class="price">Price: Rp{{ number_format($discountedPrice, 0, ',', '.') }}</div>
-                                            <div class="subtotal">Subtotal: Rp{{ number_format($subtotal, 0, ',', '.') }}</div>
+                                            <div class="subtotal">Subtotal: Rp{{ number_format($subtotal, 0, ',', '.') }}
+                                            <input class="select" type="checkbox" name="selected_items[]" value="{{$item->id}}" checked>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -107,13 +107,13 @@
                             <label for="payment_method">Payment Method</label>
                             <select class="form-control" id="payment_method" name="payment_method" required>
                                 <option value="">Select Payment Method</option>
-                                <option value="Cash - Tunai">Cash - Tunai</option>
-                                <option value="Transfer - Non Tunai">Transfer - Non Tunai</option>
+                                <option value="Cash - Tunai">Cash</option>
+                                <option value="Transfer - Non Tunai">Transfer</option>
                             </select>
                         </div>
     
                         @if (session('order_placed'))
-                            <button type="button" class="btn btn-lg btn-secondary mt-3" onclick="window.location='{{ route('landingpage.produk') }}'">Back to Shopping</button>
+                            <button type="button" class="btn btn-lg btn-secondary mt-3" onclick="window.location='{{ route('shop') }}'">Back to Shopping</button>
                         @else
                             <button type="submit" class="btn btn-lg btn-primary mt-3">Make an Order</button>
                         @endif
@@ -132,9 +132,51 @@
         </div>
     </footer>
 </body>
+
 @endsection
 <script>
     document.getElementById('checkoutForm').addEventListener('submit', function() {
         document.querySelector('button[type="submit"]').disabled = true;
     });
 </script>
+
+<script>
+        @if (session('success'))
+            Swal.fire({
+                title: 'Success!',
+                text: "{{ session('success') }}",
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        @endif
+
+        document.getElementById('checkoutForm').addEventListener('submit', function() {
+            document.querySelector('button[type="submit"]').disabled = true;
+            document.querySelectorAll('.checkout-item').forEach(item => {
+                item.style.display = 'none';
+            });
+        });
+
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const checkboxes = document.querySelectorAll('input[name="selected_items[]"]');
+        //     const totalAmountSpan = document.getElementById('total_amount');
+        //     const totalAmountInput = document.getElementById('total_amount_input');
+
+        //     function updateTotal() {
+        //         let total = 0;
+        //         checkboxes.forEach(checkbox => {
+        //             if (checkbox.checked) {
+        //                 const subtotal = parseFloat(checkbox.closest('.checkout-item').querySelector(
+        //                     '[name="subtotal"]').textContent.replace(/[^\d]/g, ''));
+        //                 total += subtotal;
+        //             }
+        //         });
+        //         totalAmountSpan.textContent = new Intl.NumberFormat('id-ID', {
+        //             style: 'currency',
+        //             currency: 'IDR'
+        //         }).format(total);
+        //         totalAmountInput.value = total;
+        //     }
+        // });
+        
+    </script>

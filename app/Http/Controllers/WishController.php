@@ -3,62 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Wishlist;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 
 class WishController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('wish.index');
+        $wishlists = Wishlist::where('customer_id', Auth::guard('customers')->id())->get();
+        return view('wishlist.index', compact('wishlists'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $wishlist = Wishlist::firstOrCreate(
+            ['customer_id' => Auth::guard('customers')->id(), 'product_id' => $request->product_id]
+        );
+
+        return redirect()->route('wish.index')->with('success', 'Product added to wishlist');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $wishlist = Wishlist::where('customer_id', Auth::guard('customers')->id())->where('id', $id)->first();
+        if ($wishlist) {
+            $wishlist->delete();
+            return redirect()->route('wish.index')->with('success', 'Product removed from wishlist');
+        }
+        return redirect()->route('wish.index')->with('error', 'Product not found in wishlist');
     }
 }
